@@ -1,0 +1,22 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:EMVideoView="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.BoxingVideoViewActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <com.devbrackets.android.exomedia.ui.widget.EMVideoView
+        android:id="@+id/em_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        EMVideoView:useDefaultControls="true" />
+
+    <!-- todo
+    <ImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"/>-->
+
+</FrameLayout>

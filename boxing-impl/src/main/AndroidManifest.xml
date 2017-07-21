@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright (C) 2017 Bilibili
   ~
   ~  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,35 +13,28 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.bilibili.boxing_impl">
+    package="com.bilibili.boxing_impl">
 
     <application
         android:label="@string/boxing_app_name"
         android:theme="@style/Boxing.AppTheme">
-
         <activity
-            android:name="com.bilibili.boxing_impl.ui.BoxingActivity"
+            android:name=".ui.BoxingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Boxing.AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/Boxing.AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.bilibili.boxing_impl.ui.BoxingViewActivity"
+            android:name=".ui.BoxingViewActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Boxing.AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/Boxing.AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.bilibili.boxing_impl.ui.BoxingBottomSheetActivity"
+            android:name=".ui.BoxingBottomSheetActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Boxing.AppTheme.NoActionBar"/>
-
+            android:theme="@style/Boxing.AppTheme.NoActionBar" />
+        <activity android:name=".ui.BoxingVideoViewActivity"></activity>
     </application>
-
 
 </manifest>

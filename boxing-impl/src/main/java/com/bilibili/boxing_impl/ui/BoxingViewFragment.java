@@ -67,6 +67,7 @@ public class BoxingViewFragment extends AbsBoxingViewFragment implements View.On
     public static final String TAG = "com.bilibili.boxing_impl.ui.BoxingViewFragment";
     private static final int IMAGE_PREVIEW_REQUEST_CODE = 9086;
     private static final int IMAGE_CROP_REQUEST_CODE = 9087;
+    private static final int VIDEO_PREVIEW_REQUEST_CODE = 9088;
 
     private static final int GRID_COUNT = 3;
 
@@ -284,6 +285,7 @@ public class BoxingViewFragment extends AbsBoxingViewFragment implements View.On
         if (data == null) {
             return;
         }
+
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PREVIEW_REQUEST_CODE) {
             mIsPreview = false;
             boolean isBackClick = data.getBooleanExtra(BoxingViewActivity.EXTRA_TYPE_BACK, false);
@@ -294,8 +296,15 @@ public class BoxingViewFragment extends AbsBoxingViewFragment implements View.On
                 mMediaAdapter.notifyDataSetChanged();
             }
             updateMultiPickerLayoutState(selectedMedias);
-        }
+        } else if (resultCode == Activity.RESULT_OK && requestCode == VIDEO_PREVIEW_REQUEST_CODE) {
+            BaseMedia selectedMedia = data.getParcelableExtra(Boxing.EXTRA_SELECTED_MEDIA);
 
+            if (selectedMedia != null) {
+                List<BaseMedia> medias = new ArrayList<>();
+                medias.add(selectedMedia);
+                onFinish(medias);
+            }
+        }
     }
 
     private void onViewActivityRequest(List<BaseMedia> selectedMedias, List<BaseMedia> allMedias, boolean isBackClick) {
@@ -416,14 +425,13 @@ public class BoxingViewFragment extends AbsBoxingViewFragment implements View.On
             } else if (mode == BoxingConfig.Mode.MULTI_IMG) {
                 multiImageClick(pos);
             } else if (mode == BoxingConfig.Mode.VIDEO) {
-                videoClick(media);
+                videoClick(pos);
             }
         }
 
-        private void videoClick(BaseMedia media) {
-            ArrayList<BaseMedia> iMedias = new ArrayList<>();
-            iMedias.add(media);
-            onFinish(iMedias);
+        private void videoClick(int pos) {
+            Boxing.get().withIntent(getContext(), BoxingVideoViewActivity.class, new ArrayList<BaseMedia>(), pos)
+                    .start(BoxingViewFragment.this, BoxingViewFragment.VIDEO_PREVIEW_REQUEST_CODE, BoxingConfig.ViewMode.EDIT);
         }
 
         private void multiImageClick(int pos) {
