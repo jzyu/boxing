@@ -21,8 +21,8 @@ apply plugin: 'com.jfrog.bintray'
 def siteUrl = "https://github.com/Bilibili/boxing"
 def gitUrl = "https://github.com/Bilibili/boxing.git"
 
-group = "com.bilibili"
-version = "0.8.0"
+group = "com.github.jzyu"
+version = "0.8.0.1"
 
 android {
     compileSdkVersion 25
@@ -138,5 +138,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:0.5'
 
-    compile 'com.devbrackets.android:exomedia:3.1.0'
+
 }
