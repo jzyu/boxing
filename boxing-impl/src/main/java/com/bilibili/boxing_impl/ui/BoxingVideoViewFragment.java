@@ -3,6 +3,7 @@ package com.bilibili.boxing_impl.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,14 @@ import android.view.ViewGroup;
 import com.bilibili.boxing.model.entity.impl.VideoMedia;
 import com.bilibili.boxing_impl.R;
 import com.devbrackets.android.exomedia.listener.OnPreparedListener;
-import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
+import com.devbrackets.android.exomedia.ui.widget.VideoView;
 
 public class BoxingVideoViewFragment extends BoxingBaseFragment {
+    public static final String TAG = "VideoPreviewFragment";
     private static final String BUNDLE_VIDEO = "com.bilibili.boxing_impl.ui.BoxingRawImageFragment.video";
 
     private VideoMedia media;
-    private EMVideoView videoView;
+    private VideoView videoView;
 
     public static BoxingVideoViewFragment newInstance(@NonNull VideoMedia video) {
         BoxingVideoViewFragment fragment = new BoxingVideoViewFragment();
@@ -42,7 +44,7 @@ public class BoxingVideoViewFragment extends BoxingBaseFragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        videoView = (EMVideoView) view.findViewById(R.id.em_video_view);
+        videoView = (VideoView) view.findViewById(R.id.em_video_view);
         videoView.post(new Runnable() {
             @Override
             public void run() {
@@ -53,10 +55,13 @@ public class BoxingVideoViewFragment extends BoxingBaseFragment {
 
     @Override
     void setUserVisibleCompat(boolean isVisibleToUser) {
+        Log.d(TAG, "setUserVisibleCompat, isVisibleToUser = " + isVisibleToUser);
+
         if (isVisibleToUser) {
             videoView.setOnPreparedListener(new OnPreparedListener() {
                 @Override
                 public void onPrepared() {
+                    Log.d(TAG, "videoView onPrepared, now start");
                     videoView.start();
                 }
             });

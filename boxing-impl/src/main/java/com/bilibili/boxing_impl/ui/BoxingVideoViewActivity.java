@@ -78,6 +78,7 @@ public class BoxingVideoViewActivity extends AbsBoxingViewActivity {
         mGallery.setAdapter(mAdapter);
         mGallery.addOnPageChangeListener(new OnPagerChangeListener());
 
+        mOkBtn.setText("选择");
         mOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
