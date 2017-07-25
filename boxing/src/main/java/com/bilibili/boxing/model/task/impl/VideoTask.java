@@ -23,6 +23,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 
+import com.bilibili.boxing.model.BoxingManager;
 import com.bilibili.boxing.model.callback.IMediaTaskCallback;
 import com.bilibili.boxing.model.entity.impl.VideoMedia;
 import com.bilibili.boxing.model.task.IMediaTask;
@@ -71,9 +72,13 @@ public class VideoTask implements IMediaTask<VideoMedia> {
                     String size = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
                     String date = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATE_TAKEN));
                     String duration = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
-                    VideoMedia video = new VideoMedia.Builder(id, data).setTitle(title).setDuration(duration)
-                            .setSize(size).setDataTaken(date).setMimeType(type).build();
-                    videoMedias.add(video);
+
+                    // jzyu
+                    if (isDurationValid(duration)) {
+                        VideoMedia video = new VideoMedia.Builder(id, data).setTitle(title).setDuration(duration)
+                                .setSize(size).setDataTaken(date).setMimeType(type).build();
+                        videoMedias.add(video);
+                    }
 
                 } while (!cursor.isLast() && cursor.moveToNext());
                 postMedias(callback, videoMedias, count);
@@ -86,6 +91,21 @@ public class VideoTask implements IMediaTask<VideoMedia> {
             }
         }
 
+    }
+
+    // jzyu
+    private boolean isDurationValid(String strDuration) {
+        int durationMax = BoxingManager.getInstance().getBoxingConfig().getVideoDurationMaxSeconds();
+        if (durationMax <= 0)
+            return true;
+
+        try {
+            int durationSec = Integer.valueOf(strDuration) / 1000;
+            return durationSec < durationMax;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void postMedias(@NonNull final IMediaTaskCallback<VideoMedia> callback,

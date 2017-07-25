@@ -51,6 +51,19 @@ public class BoxingConfig implements Parcelable {
 
     private int mMaxCount = DEFAULT_SELECTED_COUNT;
 
+    // jzyu begin {
+    private int mVideoDurationMaxSeconds;
+
+    public int getVideoDurationMaxSeconds() {
+        return mVideoDurationMaxSeconds;
+    }
+
+    public BoxingConfig videoMaxSeconds(int seconds) {
+        this.mVideoDurationMaxSeconds = seconds;
+        return this;
+    }
+    // jzyu end }
+
     public enum Mode {
         SINGLE_IMG, MULTI_IMG, VIDEO
     }
@@ -283,6 +296,9 @@ public class BoxingConfig implements Parcelable {
         dest.writeByte(this.mNeedGif ? (byte) 1 : (byte) 0);
         dest.writeByte(this.mNeedPaging ? (byte) 1 : (byte) 0);
         dest.writeInt(this.mMaxCount);
+
+        // jzyu
+        dest.writeInt(this.mVideoDurationMaxSeconds);
     }
 
     protected BoxingConfig(Parcel in) {
@@ -301,6 +317,9 @@ public class BoxingConfig implements Parcelable {
         this.mNeedGif = in.readByte() != 0;
         this.mNeedPaging = in.readByte() != 0;
         this.mMaxCount = in.readInt();
+
+        // jzyu
+        this.mVideoDurationMaxSeconds = in.readInt();
     }
 
     public static final Creator<BoxingConfig> CREATOR = new Creator<BoxingConfig>() {

@@ -127,7 +127,8 @@ public class FirstActivity extends AppCompatActivity implements View.OnClickList
             case R.id.video_btn:
                 BoxingConfig videoConfig = new BoxingConfig(BoxingConfig.Mode.VIDEO)
                         .withVideoDurationRes(R.drawable.ic_boxing_play)
-                        .needCamera(R.drawable.ic_boxing_camera_white);
+                        .needCamera(R.drawable.ic_boxing_camera_white)
+                        .videoMaxSeconds(10);
                 Boxing.of(videoConfig).withIntent(this, BoxingActivity.class).start(this, REQUEST_CODE);
                 break;
             case R.id.outside_bs_btn:
