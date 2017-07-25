@@ -45,6 +45,7 @@ import com.bilibili.boxing.model.config.BoxingConfig;
 import com.bilibili.boxing.model.entity.AlbumEntity;
 import com.bilibili.boxing.model.entity.BaseMedia;
 import com.bilibili.boxing.model.entity.impl.ImageMedia;
+import com.bilibili.boxing.model.entity.impl.VideoMedia;
 import com.bilibili.boxing.utils.BoxingFileHelper;
 import com.bilibili.boxing_impl.R;
 import com.bilibili.boxing_impl.WindowManagerHelper;
@@ -67,7 +68,7 @@ public class BoxingViewFragment extends AbsBoxingViewFragment implements View.On
     public static final String TAG = "com.bilibili.boxing_impl.ui.BoxingViewFragment";
     private static final int IMAGE_PREVIEW_REQUEST_CODE = 9086;
     private static final int IMAGE_CROP_REQUEST_CODE = 9087;
-    private static final int VIDEO_PREVIEW_REQUEST_CODE = 9088;
+    private static final int VIDEO_PREVIEW_REQUEST_CODE = 9088; // jzyu
 
     private static final int GRID_COUNT = 3;
 
@@ -296,6 +297,7 @@ public class BoxingViewFragment extends AbsBoxingViewFragment implements View.On
                 mMediaAdapter.notifyDataSetChanged();
             }
             updateMultiPickerLayoutState(selectedMedias);
+        //jzyu
         } else if (resultCode == Activity.RESULT_OK && requestCode == VIDEO_PREVIEW_REQUEST_CODE) {
             BaseMedia selectedMedia = data.getParcelableExtra(Boxing.EXTRA_SELECTED_MEDIA);
 
@@ -425,10 +427,13 @@ public class BoxingViewFragment extends AbsBoxingViewFragment implements View.On
             } else if (mode == BoxingConfig.Mode.MULTI_IMG) {
                 multiImageClick(pos);
             } else if (mode == BoxingConfig.Mode.VIDEO) {
+                // jzyu
+                //videoClick(media);
                 videoClick(pos);
             }
         }
 
+        // jzyu
         private void videoClick(int pos) {
             Boxing.get().withIntent(getContext(), BoxingVideoViewActivity.class, new ArrayList<BaseMedia>(), pos)
                     .start(BoxingViewFragment.this, BoxingViewFragment.VIDEO_PREVIEW_REQUEST_CODE, BoxingConfig.ViewMode.EDIT);
@@ -464,7 +469,16 @@ public class BoxingViewFragment extends AbsBoxingViewFragment implements View.On
 
         @Override
         public void onClick(View v) {
-            if (!mIsCamera) {
+            if (! mIsCamera) {
+                // jzyu
+                if (BoxingManager.getInstance().getBoxingConfig().isVideoMode()) {
+                    List<BaseMedia> medias = new ArrayList<>();
+                    VideoMedia dummy = new VideoMedia.Builder("camera", "camera").build();
+                    medias.add(dummy);
+                    onFinish(medias);
+                    return;
+                }
+
                 mIsCamera = true;
                 startCamera(getActivity(), BoxingViewFragment.this, BoxingFileHelper.DEFAULT_SUB_DIR);
             }
